@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jc.bike.mapper.BikeMapper" >
+  <resultMap id="BaseResultMap" type="com.jc.bike.model.Bike" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bno" property="bno" jdbcType="INTEGER" />
+    <result column="bname" property="bname" jdbcType="VARCHAR" />
+    <result column="bface" property="bface" jdbcType="VARCHAR" />
+    <result column="bcount" property="bcount" jdbcType="INTEGER" />
+    <result column="bprice" property="bprice" jdbcType="DECIMAL" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="bikeWithRent" type="com.jc.bike.model.Bike" extends="BaseResultMap">
+    <association property="rent" javaType="com.jc.bike.model.Rent">
+      <id column="id" property="id"/>
+      <result column="address" property="address"/>
+      <result column="tel" property="tel"/>
+      <result column="rentname" property="rentname"></result>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bno, bname, bface, bcount, bprice, desc
+  </sql>
+  <select id="getAllBikes" resultMap="bikeWithRent">
+    select b.*,r.* from bike b,bike_rent br ,rent r where b.id=br.bid and br.rentid=r.id;
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from bike
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from bike
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jc.bike.model.Bike" >
+    insert into bike (id, bno, bname, 
+      bface, bcount, bprice, 
+      desc)
+    values (#{id,jdbcType=INTEGER}, #{bno,jdbcType=INTEGER}, #{bname,jdbcType=VARCHAR}, 
+      #{bface,jdbcType=VARCHAR}, #{bcount,jdbcType=INTEGER}, #{bprice,jdbcType=DECIMAL}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jc.bike.model.Bike" >
+    insert into bike
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bno != null" >
+        bno,
+      </if>
+      <if test="bname != null" >
+        bname,
+      </if>
+      <if test="bface != null" >
+        bface,
+      </if>
+      <if test="bcount != null" >
+        bcount,
+      </if>
+      <if test="bprice != null" >
+        bprice,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bno != null" >
+        #{bno,jdbcType=INTEGER},
+      </if>
+      <if test="bname != null" >
+        #{bname,jdbcType=VARCHAR},
+      </if>
+      <if test="bface != null" >
+        #{bface,jdbcType=VARCHAR},
+      </if>
+      <if test="bcount != null" >
+        #{bcount,jdbcType=INTEGER},
+      </if>
+      <if test="bprice != null" >
+        #{bprice,jdbcType=DECIMAL},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jc.bike.model.Bike" >
+    update bike
+    <set >
+      <if test="bno != null" >
+        bno = #{bno,jdbcType=INTEGER},
+      </if>
+      <if test="bname != null" >
+        bname = #{bname,jdbcType=VARCHAR},
+      </if>
+      <if test="bface != null" >
+        bface = #{bface,jdbcType=VARCHAR},
+      </if>
+      <if test="bcount != null" >
+        bcount = #{bcount,jdbcType=INTEGER},
+      </if>
+      <if test="bprice != null" >
+        bprice = #{bprice,jdbcType=DECIMAL},
+      </if>
+      <if test="desc != null" >
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jc.bike.model.Bike" >
+    update bike
+    set bno = #{bno,jdbcType=INTEGER},
+      bname = #{bname,jdbcType=VARCHAR},
+      bface = #{bface,jdbcType=VARCHAR},
+      bcount = #{bcount,jdbcType=INTEGER},
+      bprice = #{bprice,jdbcType=DECIMAL},
+      desc = #{desc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

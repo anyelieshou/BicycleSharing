@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jc.bike.mapper.ShopCartMapper" >
+  <resultMap id="BaseResultMap" type="com.jc.bike.model.ShopCart" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bno" property="bno" jdbcType="INTEGER" />
+    <result column="bname" property="bname" jdbcType="VARCHAR" />
+    <result column="rentpoint" property="rentpoint" jdbcType="VARCHAR" />
+    <result column="bprice" property="bprice" jdbcType="DECIMAL" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bno, bname, rentpoint, bprice, count, userid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopcart
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shopcart
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jc.bike.model.ShopCart" >
+    insert into shopcart (id, bno, bname, 
+      rentpoint, bprice, count, 
+      userid)
+    values (#{id,jdbcType=INTEGER}, #{bno,jdbcType=INTEGER}, #{bname,jdbcType=VARCHAR}, 
+      #{rentpoint,jdbcType=VARCHAR}, #{bprice,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, 
+      #{userid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jc.bike.model.ShopCart" >
+    insert into shopcart
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bno != null" >
+        bno,
+      </if>
+      <if test="bname != null" >
+        bname,
+      </if>
+      <if test="rentpoint != null" >
+        rentpoint,
+      </if>
+      <if test="bprice != null" >
+        bprice,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bno != null" >
+        #{bno,jdbcType=INTEGER},
+      </if>
+      <if test="bname != null" >
+        #{bname,jdbcType=VARCHAR},
+      </if>
+      <if test="rentpoint != null" >
+        #{rentpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="bprice != null" >
+        #{bprice,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jc.bike.model.ShopCart" >
+    update shopcart
+    <set >
+      <if test="bno != null" >
+        bno = #{bno,jdbcType=INTEGER},
+      </if>
+      <if test="bname != null" >
+        bname = #{bname,jdbcType=VARCHAR},
+      </if>
+      <if test="rentpoint != null" >
+        rentpoint = #{rentpoint,jdbcType=VARCHAR},
+      </if>
+      <if test="bprice != null" >
+        bprice = #{bprice,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jc.bike.model.ShopCart" >
+    update shopcart
+    set bno = #{bno,jdbcType=INTEGER},
+      bname = #{bname,jdbcType=VARCHAR},
+      rentpoint = #{rentpoint,jdbcType=VARCHAR},
+      bprice = #{bprice,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
