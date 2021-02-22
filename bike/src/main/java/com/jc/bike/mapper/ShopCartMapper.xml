@@ -13,6 +13,9 @@
   <sql id="Base_Column_List" >
     id, bno, bname, rentpoint, bprice, count, userid
   </sql>
+  <select id="selectShopByUserId" resultMap="BaseResultMap">
+    select * from shopcart where userid=#{userId}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -114,4 +117,10 @@
       userid = #{userid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteShopByIds">
+    delete from shopcart where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>
