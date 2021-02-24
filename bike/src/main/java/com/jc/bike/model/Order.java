@@ -1,28 +1,34 @@
 package com.jc.bike.model;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Order {
     private Integer id;
 
+    private String orderno;
+
     private Integer status;
 
     private Integer userid;
 
-    private String name;
+    private Integer shopcartid;
 
-    private String tel;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date createtime;
 
-    private BigDecimal totalrent;
+    private Integer count;
 
-    private BigDecimal totaldeposit;
+    private ShopCart shopcart;
 
-    private Date gettime;
+    public ShopCart getShopCart() {
+        return shopcart;
+    }
 
-    private Date puttime;
-
-    private String remark;
+    public void setShopCart(ShopCart shopcart) {
+        this.shopcart = shopcart;
+    }
 
     public Integer getId() {
         return id;
@@ -30,6 +36,14 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getOrderno() {
+        return orderno;
+    }
+
+    public void setOrderno(String orderno) {
+        this.orderno = orderno == null ? null : orderno.trim();
     }
 
     public Integer getStatus() {
@@ -48,59 +62,27 @@ public class Order {
         this.userid = userid;
     }
 
-    public String getName() {
-        return name;
+    public Integer getShopcartid() {
+        return shopcartid;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setShopcartid(Integer shopcartid) {
+        this.shopcartid = shopcartid;
     }
 
-    public String getTel() {
-        return tel;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel == null ? null : tel.trim();
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
-    public BigDecimal getTotalrent() {
-        return totalrent;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setTotalrent(BigDecimal totalrent) {
-        this.totalrent = totalrent;
-    }
-
-    public BigDecimal getTotaldeposit() {
-        return totaldeposit;
-    }
-
-    public void setTotaldeposit(BigDecimal totaldeposit) {
-        this.totaldeposit = totaldeposit;
-    }
-
-    public Date getGettime() {
-        return gettime;
-    }
-
-    public void setGettime(Date gettime) {
-        this.gettime = gettime;
-    }
-
-    public Date getPuttime() {
-        return puttime;
-    }
-
-    public void setPuttime(Date puttime) {
-        this.puttime = puttime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }
