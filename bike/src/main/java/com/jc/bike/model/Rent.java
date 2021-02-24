@@ -9,7 +9,7 @@ public class Rent {
 
     private String address;
 
-    private Integer tel;
+    private String  tel;
 
     public Integer getId() {
         return id;
@@ -35,11 +35,11 @@ public class Rent {
         this.address = address == null ? null : address.trim();
     }
 
-    public Integer getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(Integer tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 }

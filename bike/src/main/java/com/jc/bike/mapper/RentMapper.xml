@@ -5,11 +5,14 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="rentname" property="rentname" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="tel" property="tel" jdbcType="INTEGER" />
+    <result column="tel" property="tel" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, rentname, address, tel
   </sql>
+  <select id="getAllRents" resultMap="BaseResultMap">
+    select * from rent
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -24,7 +27,7 @@
     insert into rent (id, rentname, address, 
       tel)
     values (#{id,jdbcType=INTEGER}, #{rentname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=INTEGER})
+      #{tel,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jc.bike.model.Rent" >
     insert into rent
@@ -53,7 +56,7 @@
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="tel != null" >
-        #{tel,jdbcType=INTEGER},
+        #{tel,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -67,7 +70,7 @@
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="tel != null" >
-        tel = #{tel,jdbcType=INTEGER},
+        tel = #{tel,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -76,7 +79,13 @@
     update rent
     set rentname = #{rentname,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      tel = #{tel,jdbcType=INTEGER}
+      tel = #{tel,jdbcType=CHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteRentPoints">
+    delete from rent where id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>
