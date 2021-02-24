@@ -1,6 +1,4 @@
 package com.jc.bike.controller;
-
-import com.jc.bike.config.SecurityConfig;
 import com.jc.bike.model.RespBean;
 import com.jc.bike.model.ShopCart;
 import com.jc.bike.model.User;

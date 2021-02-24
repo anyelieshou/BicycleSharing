@@ -18,7 +18,12 @@ public class Order {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createtime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date backtime;
+
     private Integer count;
+
+    private User user;
 
     private ShopCart shopcart;
 
@@ -84,5 +89,21 @@ public class Order {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    public Date getBacktime() {
+        return backtime;
+    }
+
+    public void setBacktime(Date backtime) {
+        this.backtime = backtime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -44,10 +44,10 @@ public class OrderController {
     }
 
     @GetMapping("/")
-    public List<Order> getAllOrdersByUserId(){
+    public List<Order> getAllOrdersByUserId(@RequestParam("status") Integer status){
         //获取用户id
         User user =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return orderService.getAllOrdersByUserId(user.getId());
+        return orderService.getAllOrdersByUserId(user.getId(),status);
     }
 
     @DeleteMapping("/{id}")

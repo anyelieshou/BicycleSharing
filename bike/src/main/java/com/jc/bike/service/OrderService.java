@@ -32,8 +32,8 @@ public class OrderService {
     }
 
     //根据用户id查询所有订单
-    public List<Order> getAllOrdersByUserId(Integer userid){
-        return orderMapper.getAllOrdersByUserId(userid);
+    public List<Order> getAllOrdersByUserId(Integer userid,Integer status){
+        return orderMapper.getAllOrdersByUserId(userid,status);
     }
 
     public Integer deleteOrderById(Integer id) {
@@ -43,4 +43,5 @@ public class OrderService {
     public Integer deleteOrderByIds(Integer[] ids) {
         return orderMapper.deleteOrderByIds(ids);
     }
+
 }
