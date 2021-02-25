@@ -35,9 +35,9 @@ public class ManageOrderService {
         return orderMapper.getOrderById(id,status);
     }
 
-    public Integer acceptOrder(Integer id,Integer status) {
+    public Integer acceptOrder(Order order) {
 //        //所减库存
 //        int count = orderMapper.quertCount(id);
-        return orderMapper.acceptOrder(id,status);
+        return orderMapper.acceptOrder(order);
     }
 }

@@ -6,6 +6,7 @@ import com.jc.bike.service.ManageOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,19 +31,29 @@ public class ManageOrderController {
     ManageOrderService manageOrderService;
 
     @GetMapping("/")
-    public List<Order> getAllOrders(){
-        return manageOrderService.getAllOrders(1);
+    public List<Order> getAllOrders(@RequestParam("status") Integer status){
+        return manageOrderService.getAllOrders(status);
     }
-    @GetMapping("/{id}")
-    public Order getOrderById(@PathVariable Integer id){
-        return manageOrderService.getOrderById(id,1);
+    @GetMapping("/{id}&{status}")
+    public Order getOrderById(@PathVariable Integer id ,@PathVariable Integer status){
+        return manageOrderService.getOrderById(id,status);
     }
 
-    @PutMapping("/{id}/")
-    public RespBean acceptOrder(@PathVariable Integer id ,@RequestParam("status") Integer status){
-        if(manageOrderService.acceptOrder(id,status)==1){
-            return RespBean.ok("订单已接收！");
+    @PutMapping("/")
+    public RespBean acceptOrder(@RequestBody Order order){
+        if(order.getStatus()==3){
+            order.setBacktime(new Date());
+            if(manageOrderService.acceptOrder(order)==1){
+                return RespBean.ok("还车成功！");
+            }
+            return RespBean.error("还车失败");
         }
-        return RespBean.error("订单接收失败");
+        if(order.getStatus()==2){
+            if(manageOrderService.acceptOrder(order)==1){
+                return RespBean.ok("订单已接收！");
+            }
+            return RespBean.error("订单接收失败");
+        }
+        return RespBean.error("错误异常");
     }
 }

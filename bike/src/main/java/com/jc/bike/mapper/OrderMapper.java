@@ -19,7 +19,7 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    int acceptOrder(@Param("status") Integer status,@Param("id") Integer id);
+    int acceptOrder(Order order);
 
     //根据用户id查询订单
     List<Order> getAllOrdersByUserId(@Param("userid") Integer userid,@Param("status") Integer status);

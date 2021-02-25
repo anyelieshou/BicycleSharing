@@ -205,13 +205,8 @@ AND t.`status` = #{status};
       #{id}
     </foreach>
   </delete>
-    <update id="acceptOrder" parameterType="java.lang.Integer">
-        update t_order
-        <set >
-            <if test="status != null"/>
-            status = #{status,jdbcType=INTEGER},
-        </set>
-        where id =#{id,jdbcType=INTEGER}
+    <update id="acceptOrder" parameterType="com.jc.bike.model.Order" >
+        update t_order set status = #{status,jdbcType=INTEGER},backTime = #{backtime,jdbcType=TIMESTAMP} where id =#{id,jdbcType=INTEGER}
     </update>
     <select id="quertCount" parameterType="java.lang.Integer">
         select t.count from t_order t where id=#{id,jdbcType=INTEGER}
