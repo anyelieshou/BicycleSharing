@@ -1,6 +1,8 @@
 package com.jc.bike.mapper;
 
 import com.jc.bike.model.MenuRole;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public interface MenuRoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +16,8 @@ public interface MenuRoleMapper {
     int updateByPrimaryKeySelective(MenuRole record);
 
     int updateByPrimaryKey(MenuRole record);
+
+    void deleteByRid(Integer rid);
+
+    Integer insertRecord(@Param("rid") Integer rid, @Param("mids") Integer[] mids);
 }

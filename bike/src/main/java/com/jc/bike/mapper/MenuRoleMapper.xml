@@ -15,6 +15,15 @@
     from menu_role
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <insert id="insertRecord">
+    insert into menu_role (mid,rid) values
+    <foreach collection="mids" separator="," item="mid">
+      (#{mid},#{rid})
+    </foreach>
+  </insert>
+  <delete id="deleteByRid">
+    delete  from menu_role where rid=#{rid}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from menu_role
     where id = #{id,jdbcType=INTEGER}

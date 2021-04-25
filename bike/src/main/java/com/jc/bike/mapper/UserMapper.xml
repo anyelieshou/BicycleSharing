@@ -13,9 +13,36 @@
     <result column="enabled" property="enabled" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="TINYINT" />
   </resultMap>
+  <resultMap id="UserWithRoles" type="com.jc.bike.model.User" extends="BaseResultMap">
+    <collection property="roles" ofType="com.jc.bike.model.Role">
+      <id column="rid" property="id"/>
+      <result column="rname" property="name"/>
+      <result column="rnamezh" property="namezh"/>
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List" >
     id, name, address, phone, depart, username, password, userface, enabled, remark
   </sql>
+  <select id="getAllUsers" resultMap="UserWithRoles">
+    SELECT
+	`user`.id,
+	`user`. NAME,
+	`user`.address,
+	`user`.phone,
+	`user`.depart,
+	`user`.username,
+	`user`.userface,
+	`user`.enabled,
+	`user`.remark,
+	r.id as rid,
+	r. name as rname,
+	r.namezh as rnamezh
+FROM USER LEFT JOIN user_role ur ON `user`.id = ur.userid LEFT JOIN role r ON ur.rid = r.id WHERE user.id != #{userid}
+    <if test="keywords!=null">
+      and user.name like concat('%',#{keywords},'%')
+    </if>
+	order by user.id
+  </select>
   <select id="getAllUser" resultMap="BaseResultMap">
     select * from user
   </select>
@@ -164,4 +191,10 @@
       #{id}
     </foreach>
   </delete>
+  <update id="updatePassword">
+    update user set password=#{encodePass} where id=#{id}
+  </update>
+  <update id="updateUserface">
+    update user set userface=#{url} where id=#{id}
+  </update>
 </mapper>

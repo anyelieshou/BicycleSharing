@@ -27,4 +27,12 @@ public interface UserMapper {
     List<User> getAllUser();
 
     Integer deletdUserByIds(@Param("ids") Integer[] ids);
+
+    //修改密码
+    Integer updatePassword(@Param("id")Integer id,@Param("encodePass") String encodePass);
+
+    //更新用户头像
+    Integer updateUserface(@Param("url")String url,@Param("id") Integer id);
+
+    List<User> getAllUsers(@Param("userid") Integer userid,@Param("keywords") String keywords);
 }

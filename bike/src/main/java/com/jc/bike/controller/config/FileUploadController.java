@@ -1,17 +1,13 @@
 package com.jc.bike.controller.config;
 
+import com.jc.bike.config.FastDFSUtils;
+import com.jc.bike.model.RespBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Copyright: Copyright (c) 2020 jc
@@ -30,32 +26,13 @@ import java.util.UUID;
  **/
 @RestController
 public class FileUploadController {
-    SimpleDateFormat sdf=new SimpleDateFormat("/yyyy/MM/dd");
+    @Value("${fastdfs.nginx.host}")
+    String nginxHost;
 
     @PostMapping("/upload")
-    public Map<String,Object> fileupload(MultipartFile file, HttpServletRequest req){
-        Map<String,Object> result=new HashMap<>();
-        String orginName=file.getOriginalFilename();
-        if(!orginName.endsWith(".jpg")){
-            result.put("status","error");
-            result.put("msg","文件类型不对");
-        }
-        String format=sdf.format(new Date());
-        String realPath=req.getServletContext().getRealPath("/")+format;
-        File folder=new File(realPath);
-        if(!folder.exists()){
-            folder.mkdirs();
-        }
-        String newName= UUID.randomUUID().toString()+".jpg";
-        try {
-            file.transferTo(new File(folder,newName));
-            String url=req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+format+newName;
-            result.put("status","success");
-            result.put("url",url);
-        } catch (IOException e) {
-            result.put("status","error");
-            result.put("msg",e.getMessage());
-        }
-        return result;
+    public RespBean upLoadImg(MultipartFile file){
+        String fileId= FastDFSUtils.upload(file);
+        String url=nginxHost+fileId;
+        return RespBean.ok("url",url);
     }
 }

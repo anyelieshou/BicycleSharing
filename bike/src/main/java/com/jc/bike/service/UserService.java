@@ -1,12 +1,16 @@
 package com.jc.bike.service;
 
+import com.jc.bike.config.UserUtils;
 import com.jc.bike.mapper.UserMapper;
+import com.jc.bike.mapper.UserRoleMapper;
 import com.jc.bike.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +33,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    UserRoleMapper userRoleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userMapper.loadUserByUsername(s);
@@ -45,7 +52,9 @@ public class UserService implements UserDetailsService {
     }
     //增加学生用户信息
     public Integer addUser(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setEnabled(true);
+        user.setPassword(encoder.encode("123"));
         return userMapper.insertSelective(user);
     }
 
@@ -60,5 +69,32 @@ public class UserService implements UserDetailsService {
 
     public Integer deletdUserByIds(Integer[] ids) {
         return userMapper.deletdUserByIds(ids);
+    }
+
+    public boolean updateUserPassword(String oldpass, String pass, Integer id) {
+        User user = userMapper.selectByPrimaryKey(id);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(encoder.matches(oldpass,user.getPassword())){//密码正确
+            String encodePass = encoder.encode(pass);
+            Integer result=userMapper.updatePassword(id,encodePass);
+            if(result==1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Integer updateUserface(String url, Integer id) {
+        return userMapper.updateUserface(url,id);
+    }
+
+    public List<User> getAllUsers(String keywords) {
+        return userMapper.getAllUsers(UserUtils.getCurrentUser().getId(),keywords);
+    }
+
+    @Transactional
+    public boolean updateUserRole(Integer userid, Integer[] rids) {
+        userRoleMapper.deleteByUserid(userid);
+        return userRoleMapper.addUserRole(userid,rids)==rids.length;
     }
 }

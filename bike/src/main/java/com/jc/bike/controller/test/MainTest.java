@@ -1,5 +1,11 @@
 package com.jc.bike.controller.test;
 
+import com.jc.bike.model.Order;
+import com.jc.bike.service.ManageOrderService;
+
+import java.util.Date;
+import java.util.UUID;
+
 /**
  * Copyright: Copyright (c) 2020 jc
  *
